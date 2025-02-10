@@ -6,6 +6,7 @@
 #include<Novice.h>
 
 
+
 Scene::Scene()
 {
 	winCount_ = 0;
@@ -15,6 +16,7 @@ Scene::Scene()
 	player = new Player();
 	enemy[0] = new Enemy(100, 100);
 	enemy[1] = new Enemy(250, 300);
+	//rToRestartHandle = Novice::LoadTexture("./Resources/Images/rRestart.png");
 }
 	//条件確認はGet　値を仮に変化させるのはSet(Setを通って、引数がprivateにある目標に代入される)
 void Scene::Update_(char* keys)
@@ -71,7 +73,7 @@ void Scene::Update_(char* keys)
 	{
 		isLose_ = true;
 	}
-	else if (winCount_ >= 10)
+	else if (winCount_ >= 5)
 	{
 		isWin_ = true;
 	}
@@ -82,6 +84,7 @@ void Scene::Update_(char* keys)
 
 void Scene::Draw_()
 {
+	//Novice::DrawSprite(20, 20, rToRestartHandle, 1.0f, 1.0f, 0.0f, WHITE);
 	player->Draw();
 	for (int i = 0; i < 2; i++)
 	{

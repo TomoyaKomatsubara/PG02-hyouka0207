@@ -13,6 +13,8 @@ public:
 	void Draw_();
 	void Initialize();
 
+	//int rToRestartHandle;
+
 	Player* player;
 	Enemy* enemy[2];
 };

@@ -35,7 +35,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinScene *winScene = new WinScene();
 	LoseScene *loseScene = new LoseScene();
 
-
+	int rToRestartHandle = Novice::LoadTexture("./Resources/Images/rRestart.png");
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -49,7 +49,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		if (keys[DIK_0] && !preKeys[DIK_0])
+	/*	if (keys[DIK_0] && !preKeys[DIK_0])
 		{
 			nowScene = 0;
 			title->Initialize();
@@ -60,7 +60,51 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			nowScene = 1;
 			title->Initialize();
 			scene->Initialize();
+		}*/
+
+		if (nowScene == 0 && keys[DIK_SPACE] && !preKeys[DIK_SPACE])
+		{
+			nowScene = 1;
+			title->Initialize();
+			scene->Initialize();
 		}
+
+		if (nowScene == 1)
+		{
+			if (scene->player->getHp_() <= 0)
+			{
+				nowScene = 4;
+				title->Initialize();
+				scene->Initialize();
+			}
+			else if (scene->isWin_)
+			{
+				nowScene = 3;
+				title->Initialize();
+				scene->Initialize();
+			}
+		}
+
+
+
+		//if (nowScene == 3)
+		//{
+		//	if (keys[DIK_R] && !preKeys[DIK_R])
+		//	{
+		//		nowScene = 0;
+		//		title->Initialize();
+		//		scene->Initialize();
+		//	}
+		//}
+		
+			if (keys[DIK_R] && !preKeys[DIK_R])
+			{
+				nowScene = 0;
+				title->Initialize();
+				scene->Initialize();
+			}
+		
+
 
 
 		if (nowScene == 0)
@@ -110,6 +154,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			loseScene->Draw_();
 		}
+
+		Novice::DrawSprite(0, 660, rToRestartHandle, 1.0f, 1.0f, 0.0f, WHITE);
 
 		///
 		/// ↑描画処理ここまで
