@@ -15,6 +15,35 @@ Bullet::Bullet(int speed, int radius)
 //
 //}
 
+
+
+
+
+void Bullet::SetIsShot_(bool TorF)
+{
+	isShot_ = TorF;
+}
+
+void Bullet::SetPosX_(int x)
+{
+	posX_ = x;
+}
+
+void Bullet::SetPosY_(int y)
+{
+	posY_ = y;
+}
+
+void Bullet::SetRadius_(int radius)
+{
+	radius_ = radius;
+}
+
+void Bullet::SetSpeed_(int speed)
+{
+	speed_ = speed;
+}
+
 void Bullet::Update()
 {
 	if (isShot_)
@@ -35,4 +64,6 @@ void Bullet::Draw()
 		Novice::DrawEllipse(static_cast<int>(posX_), static_cast<int>(posY_),
 			radius_, radius_, 0.0f, RED, kFillModeSolid);
 	}
+	
 }
+

@@ -9,7 +9,27 @@ Enemy::Enemy(int posX, int posY)
 	speed_ = 10;
 	radius_ = 20;
 	isAlive_ = true;
+	toPlayerDamage_ = 2;
 }
+
+
+void Enemy::SetIsAlive(bool TorF)
+{
+	isAlive_ = TorF;
+}
+void Enemy::SetRespawnTimer(int remainTimer)
+{
+	respawnTimer_ = remainTimer;
+}
+void Enemy::SetPosX_(int posX)
+{
+	posX_ = posX;
+}
+void Enemy::SetPosY_(int posY)
+{
+	posY_ = posY;
+}
+
 
 void Enemy::Update()
 {
@@ -38,6 +58,16 @@ void Enemy::Draw()
 {
 	if (isAlive_ == true)
 	{
-		Novice::DrawEllipse(posX_, posY_, radius_, radius_, 0.0f, RED, kFillModeSolid);
+		Novice::DrawEllipse(posX_, posY_, radius_, radius_, 0.0f, 0xff6347ff, kFillModeSolid);
 	}
+}
+
+void Enemy::Initialize(int posX,int posY)
+{
+	posX_ = posX;
+	posY_ = posY;
+	speed_ = 10;
+	radius_ = 20;
+	isAlive_ = true;
+	toPlayerDamage_ = 2;
 }

@@ -1,7 +1,12 @@
 #include <Novice.h>
+#include <Math.h>
 #include"Player.h"
 //#include"Bullet.h"
 #include"Enemy.h"
+#include"Title.h"
+#include"Scene.h"
+#include"WinScene.h"
+#include"LoseScene.h"
 
 const char kWindowTitle[] = "GC1B_04_コマツバラ_トモヤ_タイトル";
 
@@ -18,12 +23,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
 
-	Player* player = new Player();
+	int nowScene = 0;
+
+	/*Player* player = new Player();
 	Enemy* enemy[2];
 	enemy[0] = new Enemy(100, 100);
-	enemy[1] = new Enemy(250, 300);
+	enemy[1] = new Enemy(250, 300);*/
 
-
+	Title *title = new Title();
+	Scene *scene = new Scene();
+	WinScene *winScene = new WinScene();
+	LoseScene *loseScene = new LoseScene();
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -39,22 +49,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
-		player->Update(keys);
-		for (int i = 0; i < 2; i++)
+		if (keys[DIK_0] && !preKeys[DIK_0])
 		{
-			enemy[i]->Update();
-			float distX = static_cast<float>(enemy[i]->posX_ - player->bullet_->posX_);
-			float distY = static_cast<float>(enemy[i]->posY_ - player->bullet_->posY_);
-			float dist = (distX * distX) + (distY * distY);
-			int radius = enemy[i]->radius_ + enemy[i]->radius_;
-			if (enemy[i]->isAlive_)
-			{
-				if (dist <= radius * radius) {
+			nowScene = 0;
+			title->Initialize();
+			scene->Initialize();
+		}
+		if (keys[DIK_1] && !preKeys[DIK_1])
+		{
+			nowScene = 1;
+			title->Initialize();
+			scene->Initialize();
+		}
 
-					enemy[i]->isAlive_ = false;
-					enemy[i]->respawnTimer_ = 60;
-				}
-			}
+
+		if (nowScene == 0)
+		{
+			title->Update_(keys);
+		}
+		else if (nowScene == 1)
+		{
+			scene->Update_(keys);
+		}
+
+		if (scene->isWin_)
+		{
+			nowScene = 3;
+		}
+		else if (scene->isLose_)
+		{
+			nowScene = 4;
 		}
 
 		///
@@ -65,12 +89,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		player->Draw();
+		/*player->Draw();
 		for (int i = 0; i < 2; i++)
 		{
 			enemy[i]->Draw();
+		}*/
+		if (nowScene == 0)
+		{
+			title->Draw_();
 		}
-
+		else if (nowScene == 1)
+		{
+			scene->Draw_();
+		}
+		else if (nowScene == 3)
+		{
+			winScene->Draw_();
+		}
+		else if (nowScene == 4)
+		{
+			loseScene->Draw_();
+		}
 
 		///
 		/// ↑描画処理ここまで
@@ -85,7 +124,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 	}
 
-	delete player;//ゲーム終了時
+	//delete player;//ゲーム終了時
 	// ライブラリの終了
 	Novice::Finalize();
 	return 0;
